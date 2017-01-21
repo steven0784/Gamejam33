@@ -29,6 +29,8 @@ public class Move : MonoBehaviour
     public bool collided = false;
     public int nextGoal = 5;
     public Transform center;
+    public int counter1 = 0;
+    public Color color;
     private void Awake()
     {
         // Setting up references
@@ -57,7 +59,8 @@ public class Move : MonoBehaviour
         //    score = score - 1;
         //}
         //Debug.Log(gravity.y);
-        Instantiate(trail, transform.position, Quaternion.identity);
+        Transform s = Instantiate(trail, transform.position, Quaternion.identity);
+        s.GetComponent<SpriteRenderer>().color = color;
         if (Time.time >= nextTime)
         {
             //do something here every interval seconds
@@ -66,6 +69,27 @@ public class Move : MonoBehaviour
             lastY = m_Rigidbody2D.velocity.y;
             average = average + current;
             counter++;
+            if (counter1 > 3)
+            {
+                counter1 = 0;
+            }
+            if (counter1 == 0)
+            {
+                color = new Color(0f, 0f, 1f, 1f);
+            }
+            else if (counter1 == 1)
+            {
+                color = new Color(0f, 1f, 0f, 1f);
+            }
+            else if (counter1 == 2)
+            {
+                color = new Color(1f, 0.92f, 0.016f, 1f);
+            }
+            else if (counter1 == 3)
+            {
+                color = new Color(1f, 0f, 0f, 1f);
+            }
+            counter1++;
 
 
         }
