@@ -15,7 +15,7 @@ public class GM : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        Debug.Log(player.getScore());
+        //Debug.Log(player.getScore());
         text.SendMessage("updateText","score: " +player.getScore().ToString() );
     }
 }

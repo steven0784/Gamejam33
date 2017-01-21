@@ -11,7 +11,7 @@ public class Move : MonoBehaviour
     public int score = 0;
     public bool gotPoint = false;
     public int collisioncount = 0;
-    public float direction = -1f;
+    public float direction = 1f;
     public bool colliding = false;
     public bool sloped = false;
     public float accerlation = 0.8f;
@@ -20,7 +20,15 @@ public class Move : MonoBehaviour
     public float timeLeft = 1;
     public bool moveAgain = true;
     public Transform trail;
-    int interval = 1;
+    float interval = 0.5f;
+    Vector3 gravity;
+    public float lastY;
+    public float current;
+    public float average;
+    public int counter = 0;
+    public bool collided = false;
+    public int nextGoal = 5;
+    public Transform center;
     private void Awake()
     {
         // Setting up references
@@ -33,112 +41,69 @@ public class Move : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-
+        gravity = Physics.gravity;
     }
 
     // Update is called once per frame
     void Update()
     {
+
         int x = 1;
-        //Debug.Log(Time.deltaTime);
-        time = Time.deltaTime;
-        float TotalSpeed = speed + score;
-        if (!moveAgain)
-        {
-            timeLeft -= Time.deltaTime;
-            if (timeLeft < 0)
-            {
-                moveAgain = true;
-                
-            }
-            else
-            {
-                TotalSpeed = 0f;
-            }
-        }
-        m_Rigidbody2D.velocity = new Vector2(0, direction * (TotalSpeed)); //*accerlation);
+        Physics.gravity = gravity;
+        //Debug.Log(Time.deltaTime)
+        //m_Rigidbody2D.velocity = new Vector2(0, direction * (TotalSpeed)); //*accerlation);
         //if (Input.GetKeyDown("a") && collisioncount == 0)
         //{
         //    score = score - 1;
         //}
+        //Debug.Log(gravity.y);
         Instantiate(trail, transform.position, Quaternion.identity);
         if (Time.time >= nextTime)
         {
             //do something here every interval seconds
             nextTime += interval;
-            Debug.Log(negAcc);
-            if((accerlation + negAcc) < 1 && (accerlation + negAcc) > 0.5)
-            { 
-                //if(sloped && negAcc < 0)
-                //{
-                //    x = 2;
-                //}
-                accerlation = accerlation + (negAcc * x);
-                //x = 1;
-            }
+            current = Mathf.Abs(Mathf.Abs(m_Rigidbody2D.velocity.y) - Mathf.Abs(lastY));
+            lastY = m_Rigidbody2D.velocity.y;
+            average = average + current;
+            counter++;
+       
 
         }
-        if (direction > 0)
+        if (Input.GetKeyDown("a") && !gotPoint && current < (average/counter))
         {
-            transform.rotation = Quaternion.Euler(0, 0, 20);
+            score = score + 1;
+            gotPoint = true;
         }
-        else if(direction < 0)
+        if (transform.position.y > center.transform.position.y && m_Rigidbody2D.gravityScale < 0)
         {
-            transform.rotation = Quaternion.Euler(0, 0, -20);
+            m_Rigidbody2D.gravityScale = m_Rigidbody2D.gravityScale * -1f;
         }
-        if(!moveAgain)
+        else if (transform.position.y < center.transform.position.y && m_Rigidbody2D.gravityScale > 0)
         {
-            transform.rotation = Quaternion.Euler(0, 0, 0);
+            m_Rigidbody2D.gravityScale = m_Rigidbody2D.gravityScale * -1f;
+        }
+        if (score >= nextGoal && current < (average / counter))
+        {
+            if (m_Rigidbody2D.gravityScale > 0)
+            {
+                m_Rigidbody2D.gravityScale = Random.Range(1, 3);
+            }
+            else if (m_Rigidbody2D.gravityScale < 0)
+            {
+                m_Rigidbody2D.gravityScale = Random.Range(-1, -3);
+            }
+
+            counter = 0;
+            average = 0;
+            nextGoal = score + 5;
         }
     }
     public int getScore ()
     {
         return score;
     }
-    void OnCollisionEnter2D(Collision2D coll)
-    {
-        //Debug.Log(coll.gameObject.tag);
-        if (coll.gameObject.tag == "ground")
-        {
-            if (moveAgain)
-                moveAgain = false;
-            direction = direction * -1f;
-            negAcc = negAcc * -1;
-            sloped = false;
-        }
-        if (!gotPoint && score != 0)
-        {
-            score = score - 1;
-            gotPoint = true;
-        }
-        collisioncount++;
-    }
-    void OnTriggerStay2D(Collider2D other)
-    {
-        //Debug.Log(other.gameObject.tag);
-        if (other.gameObject.tag == "Slope")
-        {
-
-            time = 0.1f;
-            sloped = true;
-            if (Input.GetKeyDown("a") && !gotPoint)
-            {
-                score = score + 1;
-                gotPoint = true;
-            }
-        }
-        if (other.gameObject.tag == "reset")
-        {
-            gotPoint = false;
-            negAcc = negAcc * -1;
-            timeLeft = 1;
+    
+    
 
 
-        }
-    }
-
-    void OnCollisionExit2D(Collision2D coll)
-    {
-        collisioncount--;
-    }
 }
