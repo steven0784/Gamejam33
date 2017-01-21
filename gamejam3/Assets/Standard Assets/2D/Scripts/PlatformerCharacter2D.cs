@@ -41,12 +41,21 @@ namespace UnityStandardAssets._2D
             {
                 if (colliders[i].gameObject != gameObject)
                     m_Grounded = true;
+                    Debug.Log(colliders[i].gameObject.layer);
+                    if (colliders[i].gameObject.layer == 9 && transform.rotation.eulerAngles.z != -colliders[i].gameObject.transform.rotation.eulerAngles.z)
+                    {
+                        Debug.Log("here");
+                        transform.rotation = Quaternion.Euler(-colliders[i].gameObject.transform.rotation.eulerAngles);
+                    }
+
+                    
             }
             m_Anim.SetBool("Ground", m_Grounded);
 
             // Set the vertical animation
             m_Anim.SetFloat("vSpeed", m_Rigidbody2D.velocity.y);
         }
+
 
 
         public void Move(float move, bool crouch, bool jump)
@@ -74,7 +83,14 @@ namespace UnityStandardAssets._2D
                 m_Anim.SetFloat("Speed", Mathf.Abs(move));
 
                 // Move the character
-                m_Rigidbody2D.velocity = new Vector2(move*m_MaxSpeed, m_Rigidbody2D.velocity.y);
+                if (transform.rotation.eulerAngles.z != 0 && m_Grounded == true)
+                {
+                    m_Rigidbody2D.velocity = new Vector3(move * m_MaxSpeed, Mathf.Tan(transform.rotation.eulerAngles.z) );
+                }
+                else
+                {
+                    m_Rigidbody2D.velocity = new Vector3(move * m_MaxSpeed, m_Rigidbody2D.velocity.y);
+                }
 
                 // If the input is moving the player right and the player is facing left...
                 if (move > 0 && !m_FacingRight)
