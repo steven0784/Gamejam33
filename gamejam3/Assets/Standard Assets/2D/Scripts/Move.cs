@@ -66,21 +66,31 @@ public class Move : MonoBehaviour
             lastY = m_Rigidbody2D.velocity.y;
             average = average + current;
             counter++;
-       
+
 
         }
-        if (Input.GetKeyDown("a") && !gotPoint && current < (average/counter))
+        Debug.Log(average / counter);
+        if (Input.GetKeyDown("a"))
         {
-            score = score + 1;
-            gotPoint = true;
+            current = Mathf.Abs(Mathf.Abs(m_Rigidbody2D.velocity.y) - Mathf.Abs(lastY));
+            lastY = m_Rigidbody2D.velocity.y;
+            average = average + current;
+            counter++;
+            if (!gotPoint && current < (average / counter))
+            {
+                score = score + 1;
+                gotPoint = true;
+            }
         }
         if (transform.position.y > center.transform.position.y && m_Rigidbody2D.gravityScale < 0)
         {
             m_Rigidbody2D.gravityScale = m_Rigidbody2D.gravityScale * -1f;
+            gotPoint = false;
         }
         else if (transform.position.y < center.transform.position.y && m_Rigidbody2D.gravityScale > 0)
         {
             m_Rigidbody2D.gravityScale = m_Rigidbody2D.gravityScale * -1f;
+            gotPoint = false;
         }
         if (score >= nextGoal && current < (average / counter))
         {
