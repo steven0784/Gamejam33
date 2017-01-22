@@ -68,7 +68,7 @@ public class Move1 : MonoBehaviour
     {
 
         int x = 1;
-        gm.setHighScore(0);
+        //gm.setHighScore(0);
         Physics.gravity = gravity;
         //Debug.Log(Time.deltaTime)
         //m_Rigidbody2D.velocity = new Vector2(0, direction * (TotalSpeed)); //*accerlation);
