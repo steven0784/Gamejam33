@@ -58,8 +58,11 @@
      <Compile Include="Assets\Scripts\TextScript.cs" />
      <Compile Include="Assets\Scripts\Tiling.cs" />
      <Compile Include="Assets\Scripts\TitleButtonController.cs" />
+     <Compile Include="Assets\Scripts\TutorialButtonController.cs" />
      <Compile Include="Assets\Scripts\kill.cs" />
      <Compile Include="Assets\Scripts\moveleft.cs" />
+     <Compile Include="Assets\changeZ.cs" />
+     <Compile Include="Assets\life.cs" />
      <None Include="Assets\Standard Assets\Effects\GlassRefraction\Shaders\GlassStainedBumpDistort.shader" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\_BloomAndFlares\BlendOneOne.shader" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\NoiseEffectShaderRGB.shader" />

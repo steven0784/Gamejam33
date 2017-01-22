@@ -32,6 +32,7 @@ public class Move : MonoBehaviour
     public AudioSource d;
     public AudioSource e;
     public AudioSource f;
+    public int life = 5;
 
     private void Awake()
     {
@@ -114,7 +115,8 @@ public class Move : MonoBehaviour
                 }
                 if(!gotPoint)
                 {
-                    score--;
+                    life--;
+                    f.Play();
                 }
                 counter1 = 0;
                 gotPoint = false;
@@ -230,7 +232,7 @@ public class Move : MonoBehaviour
             }
         }
         gm.setPhrase("Score :" + getScore().ToString());
-        if(score<-5)
+        if(life<=0)
         {
             gm.gameOver(getHighScore());
         }
@@ -263,7 +265,10 @@ public class Move : MonoBehaviour
 
 
     
-
+    public int getLife()
+    {
+        return life;
+    }
     void MakeTrail(){
 		Vector3 myPos = transform.position;
 		Vector3 tail = new Vector3 (transform.position.x - 2, transform.position.y - 1, transform.position.z);
@@ -286,7 +291,7 @@ public class Move : MonoBehaviour
         }
         else if(lineColor != playerColor && !gotPoint)
         {
-            score--;
+            life--;
             f.Play();
         }
         gotPoint = true;
