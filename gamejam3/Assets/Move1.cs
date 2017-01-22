@@ -39,6 +39,8 @@ public class Move1 : MonoBehaviour
     public int playerColor = 0;
     public int lineColor = 1;
     private AudioSource a;
+    public AudioSource c; 
+    public AudioSource b; 
     //public GM gm;
 
     private void Awake()

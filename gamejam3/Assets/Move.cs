@@ -25,8 +25,13 @@ public class Move : MonoBehaviour
     public int lineColor = 1;
     public float changeTime = 5;
     public int highScore = 0;
-    private AudioSource a;
+    public AudioSource a;
     public GM gm;
+    public AudioSource b;
+    public AudioSource c;
+    public AudioSource d;
+    public AudioSource e;
+    public AudioSource f;
 
     private void Awake()
     {
@@ -44,7 +49,6 @@ public class Move : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        a = GetComponent<AudioSource>();
         transform.GetComponent<SpriteRenderer>().color = new Color(0f, 0f, 1f, 1f);
     }
 
@@ -91,18 +95,22 @@ public class Move : MonoBehaviour
                 if (playerColor == 0)
                 {
                     transform.GetComponent<SpriteRenderer>().color = new Color(0f, 0f, 1f, 1f);
+                    b.Play();
                 }
                 else if (playerColor == 1)
                 {
                     transform.GetComponent<SpriteRenderer>().color = new Color(0f, 1f, 0f, 1f);
+                    c.Play();
                 }
                 else if (playerColor == 2)
                 {
                     transform.GetComponent<SpriteRenderer>().color = new Color(1f, 0.92f, 0.016f, 1f);
+                    d.Play();
                 }
                 else if (playerColor == 3)
                 {
                     transform.GetComponent<SpriteRenderer>().color = new Color(1f, 0f, 0f, 1f);
+                    e.Play();
                 }
                 if(!gotPoint)
                 {
@@ -115,25 +123,32 @@ public class Move : MonoBehaviour
 
         }
         //Debug.Log(average / counter);
-        if(Input.GetKeyDown("q"))
+        if (!gotPoint)
         {
-            lineColor = 0;
-            checkScore();
-        }
-        if (Input.GetKeyDown("w"))
-        {
-            lineColor = 1;
-            checkScore();
-        }
-        if (Input.GetKeyDown("e"))
-        {
-            lineColor = 2;
-            checkScore();
-        }
-        if (Input.GetKeyDown("r"))
-        {
-            lineColor = 3;
-            checkScore();
+            if (Input.GetKeyDown("q"))
+            {
+                lineColor = 0;
+                checkScore();
+                b.Play();
+            }
+            if (Input.GetKeyDown("w"))
+            {
+                lineColor = 1;
+                checkScore();
+                c.Play();
+            }
+            if (Input.GetKeyDown("e"))
+            {
+                lineColor = 2;
+                checkScore();
+                d.Play();
+            }
+            if (Input.GetKeyDown("r"))
+            {
+                lineColor = 3;
+                checkScore();
+                e.Play();
+            }
         }
         if (lineColor == 0)
         {
@@ -266,12 +281,13 @@ public class Move : MonoBehaviour
             score = score + 1;
             if (score > highScore)
                 highScore = score;
-            a.Play();
+            //a.Play();
             
         }
         else if(lineColor != playerColor && !gotPoint)
         {
             score--;
+            f.Play();
         }
         gotPoint = true;
     }
