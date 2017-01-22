@@ -39,15 +39,15 @@ public class Move1 : MonoBehaviour
     public int playerColor = 0;
     public int lineColor = 1;
     private AudioSource a;
-    public GM gm;
+    //public GM gm;
 
     private void Awake()
     {
         // Setting up references
-        if (gm == null)
-        {
-            gm = GameObject.FindGameObjectWithTag("GM").GetComponent<GM>();
-        }
+        //if (gm == null)
+        //{
+        //    gm = GameObject.FindGameObjectWithTag("GM").GetComponent<GM>();
+        //}
         m_Rigidbody2D = GetComponent<Rigidbody2D>();
         time = Time.time;
         realTime = time;
