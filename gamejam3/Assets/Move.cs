@@ -77,7 +77,7 @@ public class Move : MonoBehaviour
             //do something here every interval seconds
             counter1++;
             nextTime =Time.time + interval;
-            Debug.Log(counter1);
+            //Debug.Log(counter1);
             if (counter1 > changeTime)
             {
                 int g = 0;
@@ -91,7 +91,7 @@ public class Move : MonoBehaviour
                 }
                 playerColor = g;
 
-                Debug.Log(playerColor);
+                //Debug.Log(playerColor);
                 
                 if (playerColor == 0)
                 {
@@ -129,27 +129,19 @@ public class Move : MonoBehaviour
         {
             if (Input.GetKeyDown("q"))
             {
-                lineColor = 0;
-                checkScore();
-                b.Play();
+                setLineColor(0);
             }
             if (Input.GetKeyDown("w"))
             {
-                lineColor = 1;
-                checkScore();
-                c.Play();
+                setLineColor(1);
             }
             if (Input.GetKeyDown("e"))
             {
-                lineColor = 2;
-                checkScore();
-                d.Play();
+                setLineColor(2);
             }
             if (Input.GetKeyDown("r"))
             {
-                lineColor = 3;
-                checkScore();
-                e.Play();
+                setLineColor(3);
             }
         }
         if (lineColor == 0)
@@ -241,7 +233,36 @@ public class Move : MonoBehaviour
     {
         return score;
     }
-
+    public void setLineColor(int x)
+    {
+        if (!gotPoint)
+        {
+            if (x == 0)
+            {
+                lineColor = 0;
+                checkScore();
+                b.Play();
+            }
+            if (x == 1)
+            {
+                lineColor = 1;
+                checkScore();
+                c.Play();
+            }
+            if (x == 2)
+            {
+                lineColor = 2;
+                checkScore();
+                d.Play();
+            }
+            if (x == 3)
+            {
+                lineColor = 3;
+                checkScore();
+                e.Play();
+            }
+        }
+    }
     void FindPos()
     {
         Vector3 thisPos = transform.position;
